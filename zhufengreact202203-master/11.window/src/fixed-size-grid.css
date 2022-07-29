@@ -1,0 +1,14 @@
+.Grid {
+    border: 1px solid #CCC;
+}
+
+.GridItemEven,
+.GridItemOdd {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.GridItemEven {
+    background-color: lightgreen;
+}

@@ -1,0 +1,17 @@
+{
+    "props": {
+        "pageProps": {},
+        "initialState": {
+            "currentUser": {
+                "name": "1",
+                "password": "1"
+            }
+        }
+    },
+    "page": "/",
+    "query": {},
+    "buildId": "development",
+    "isFallback": false,
+    "appGip": true,
+    "scriptLoader": []
+}

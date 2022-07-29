@@ -1,0 +1,12 @@
+.List{
+    border:1px solid #CCC;
+}
+.ListItemEven,
+.ListItemOdd{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ListItemEven{
+    background-color: lightgreen;
+}
