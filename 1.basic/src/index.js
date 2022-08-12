@@ -1,89 +1,84 @@
+/*
+ * @Author: louweizhen
+ * @Date: 2022-07-21 17:19:54
+ * @LastEditors: louweizhen
+ * @LastEditTime: 2022-08-02 10:06:30
+ * @Description: file content
+ * @FilePath: \reactSource\1.basic\src\index.js
+ */
 import React from "./react";
 import ReactDOM from "./react-dom";
-import { updateQueue } from "./Component";
-//todo 😀普通元素
-/* let element = (
-  <h1 className="box" style={{ color: "red" }}>
-    <span className="box-son">你好</span>
-    <span>123</span>
-    111
-  </h1>
-); */
 
-//todo 🤣函数组件
-
-/* function FunctionComponent(props) {
-  return (
-    <div style={{ color: "red" }}>
-      {props.name}:13{props.children[1]}
-      {props.children[0]}
-    </div>
-  );
-} */
-/* console.log(
-  <FunctionComponent name="gigi">
-    <div className="slot-box">+321</div>
-  </FunctionComponent>
-); */
-/* ReactDOM.render(
-  <FunctionComponent name="gigi">
-    <div className="slot-box">+321</div>
-    <div className="slot-box2">-321</div>
-  </FunctionComponent>,
-  document.getElementById("root")
-); */
-
-//todo 🥰类组件
 class ClassMyComponent extends React.Component {
   constructor(props) {
-    super(props); //todo 🥶类似于 执行父类this指向子类React.Component.call(this)  子类就继承了父类的方法和属性了
-    this.state = {
-      num: 0,
-    };
-    // console.log(this);
+    super(props);
+    console.log("count 1.constructor");
   }
-
-  /*
- 没写合成事件的时候是这样写的
- change = () => {
-    updateQueue.isBatchingUpdate = true;
-    this.setState({ num: this.state.num + 1 });
-    this.setState({ num: this.state.num + 3 });
-    updateQueue.batchUpdate();
-  }; */
-  //☠️写个合成事件就不需要写上面那些了 合成事件里面写了已经
-  change = () => {
-    // updateQueue.isBatchingUpdate = true;
-    this.setState({ num: this.state.num + 1 });
-    this.setState({ num: this.state.num + 3 });
-    console.log("我是父亲");
-    // updateQueue.batchUpdate();
+  state = {
+    number: 0,
   };
-  btnChange = (event) => {
-    /*  🐮这个event拿到的不是原生事件  是react处理后的event
-    好处是可以处理浏览器兼容性 因为组织冒泡各个浏览方法不一样 */
-    console.log("我是子");
-    event.stopPropagation();
+
+  change = () => {
+    this.setState({
+      number: this.state.number + 1,
+    });
+  };
+  UNSAFE_componentWillMount() {
+    console.log("count 2.UNSAFE_componentWillMount");
+  }
+  componentDidMount() {
+    console.log("count 4.componentDidMount");
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("count 5.shouldComponentUpdate");
+
+    return nextState.number % 2 == 0;
+  }
+  UNSAFE_componentWillUpdate() {
+    console.log("count 6.UNSAFE_componentWillUpdate");
+  }
+  componentDidUpdate(newProps, nextState) {
+    console.log("count 7.componentDidUpdate");
+  }
+  handleClick = () => {
+    this.setState({ number: this.state.number + 1 });
   };
   render() {
+    console.log("count 3.render");
     return (
-      <div style={{ color: "orange" }} onClick={this.change}>
-        {" "}
-        {this.state.num}我是类组件{this.props.name}
-        {this.props.children[0]}
-        <button onClick={this.change}>点击</button>
+      <div>
+        <p>{this.state.number}</p>
+        {this.state.number === 4 ? null : (
+          <ChildCounter count={this.state.number} />
+        )}
+        <button onClick={this.handleClick}>+</button>
       </div>
     );
   }
 }
-console.log(typeof ClassMyComponent);
+class ChildCounter extends React.Component {
+  UNSAFE_componentWillMount() {
+    console.log("ChildCounter 1.componentWillMount");
+  }
+  componentDidMount() {
+    console.log("ChildCounter 3.componentDidMount");
+  }
+  UNSAFE_componentWillReceiveProps(newProps) {
+    console.log("ChildCounter 4.UNSAFE_componentWillReceiveProps");
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("ChildCounter 5.shouldComponentUpdate");
+    return nextProps.count % 3 === 0;
+  }
+  render() {
+    console.log("ChildCounter 2.render ");
+    return <div>{this.props.count}</div>;
+  }
+  componentWillUnmount() {
+    console.log("ChildCounter 6.componentWillUnmount ");
+  }
+}
 ReactDOM.render(
-  <ClassMyComponent name="gigi">
-    <div className="slot-box">+321</div>
-    <div className="slot-box2">-321</div>
-  </ClassMyComponent>,
+  <ClassMyComponent name="gigi"></ClassMyComponent>,
   document.getElementById("root")
 );
-/**
- * 如何获取 最新的state
- */

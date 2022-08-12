@@ -20,8 +20,8 @@ export function addEvent(dom, eventType, handler) {
     //事件名称 click和事件源就是被点击的对象
     //type,target是原生自带的  一个是类型click  一个是被点击的DOM
     let { type, target } = e;
-    console.log(e);
-    console.log(target);
+    // console.log(e);
+    // console.log(target);
     eventType = `on${type}`;
     updateQueue.isBatchingUpdate = true;
     //创建一个合成事件
